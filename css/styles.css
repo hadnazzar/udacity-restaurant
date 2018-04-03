@@ -70,6 +70,17 @@ nav h1 a {
   letter-spacing: 10px;
   text-transform: uppercase;
 }
+nav h2 {
+  margin: auto;
+  padding-top: 2vh;
+}
+nav h2 a {
+  color: #fff;
+  font-size: 14pt;
+  font-weight: 200;
+  letter-spacing: 10px;
+  text-transform: uppercase;
+}
 #breadcrumb {
     padding: 10px 40px 16px;
     list-style: none;
@@ -164,7 +175,7 @@ nav h1 a {
   min-height: 248px;
   min-width: 100%;
 }
-#restaurants-list li h1 {
+#restaurants-list li h2 {
   color: #f18200;
   font-family: Arial,sans-serif;
   font-size: 14pt;
@@ -224,6 +235,7 @@ nav h1 a {
   margin: 15px 0 30px;
   text-transform: uppercase;
   line-height: 1.1;
+  margin-top: 160px;
 }
 #restaurant-img {
 	width: 100%;
@@ -249,6 +261,13 @@ nav h1 a {
   border-top: 1px solid #fff;
   padding: 0px 40px 30px;
   width: 100%;
+  margin: 0 auto;
+  max-width: 970px;
+}
+#restaurant-container{
+  margin-top: 130px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 #reviews-container {
   padding: 10px 20px 30px;
@@ -303,6 +322,7 @@ nav h1 a {
   
 }
 #reviews-list li p:nth-child(3){
+  max-width: 65px;
   width: 20%;
   padding: 5px 15px 5px 15px;
   margin-left:15px;
@@ -327,6 +347,10 @@ nav h1 a {
     width: 45%;
   }
   nav h1 a{
+    letter-spacing: 4px;
+    font-size: 12pt;
+  }
+  nav h2 a{
     letter-spacing: 4px;
     font-size: 12pt;
   }

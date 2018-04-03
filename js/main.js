@@ -140,11 +140,11 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.alt='Restaurant Picture'
+  image.alt="Restaurant " + restaurant.name;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   li.append(image);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   li.append(name);
 
@@ -190,7 +190,7 @@ registerServiceWorker = () => {
       reg.addEventListener('updatefound',function(){
         reg.installing.addEventListener('statechange',function(){
           if(this.state === 'installed'){
-            
+
           }
         })
       })
