@@ -374,3 +374,20 @@ nav h2 a {
     font-size: 14pt;
   }
 }
+
+@media (min-width: 800px){
+  #restaurants-list li{
+    width: 40%;
+    float: left;
+    margin-left: 4%;
+  }
+}
+
+
+@media (min-width: 1200px){
+  #restaurants-list li{
+    width: 27.5%;
+    float: left;
+    margin-left: 1.5%;
+  }
+}

@@ -4,6 +4,18 @@ let restaurants,
 var map
 var markers = []
 
+var deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', function(e) {
+  console.log('beforeinstallprompt Event fired');
+  e.preventDefault();
+
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+
+  return false;
+});
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -137,11 +149,11 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
-
+  const imageSrc = DBHelper.imageUrlForRestaurant(restaurant);
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.alt="Restaurant " + restaurant.name;
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.srcset= [`${imageSrc}-320px.jpg 320w,${imageSrc}-480px.jpg 480w,${imageSrc}-800px.jpg 800w`]
   li.append(image);
 
   const name = document.createElement('h2');
