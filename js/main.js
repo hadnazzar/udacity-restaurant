@@ -3,14 +3,14 @@ var markers = []
 
 var deferredPrompt;
 
-window.addEventListener('beforeinstallprompt', function(e) {
+window.addEventListener('beforeinstallprompt', function (e) {
   console.log('beforeinstallprompt Event fired');
   e.preventDefault();
 
   // Stash the event so it can be triggered later.
   deferredPrompt = e;
 
-  return false;
+  return false;Î
 });
 
 /**
@@ -149,8 +149,8 @@ createRestaurantHTML = (restaurant) => {
   const imageSrc = DBHelper.imageUrlForRestaurant(restaurant);
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.alt="Restaurant " + restaurant.name;
-  image.srcset= [`${imageSrc}-320px.jpg 320w,${imageSrc}-480px.jpg 480w,${imageSrc}-600px.jpg 600w`]
+  image.alt = "Restaurant " + restaurant.name;
+  image.srcset = [`${imageSrc}-320px.jpg 320w,${imageSrc}-480px.jpg 480w,${imageSrc}-600px.jpg 600w`]
   li.append(image);
 
   const name = document.createElement('h2');
@@ -196,9 +196,9 @@ registerServiceWorker = () => {
       scope: '/'
     }).then(function (reg) {
       // console.log('Service Worker registered');
-      reg.addEventListener('updatefound',function(){
-        reg.installing.addEventListener('statechange',function(){
-          if(this.state === 'installed'){
+      reg.addEventListener('updatefound', function () {
+        reg.installing.addEventListener('statechange', function () {
+          if (this.state === 'installed') {
 
           }
         })
