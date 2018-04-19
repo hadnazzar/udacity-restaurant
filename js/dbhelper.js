@@ -16,20 +16,41 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        // const restaurants = json.restaurants;
-        const restaurants = json;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
+    if (window.dbExists) {
+      var open = window.indexedDB.open("MyDatabase", 1);
+      open.onsuccess = function () {
+        var db = open.result;
+        var tx = db.transaction("MyObjectStore", "readwrite");
+        window.idbStore = tx.objectStore("MyObjectStore");
+        let indexedRestaurants = window.idbStore.getAll()
+
+        tx.oncomplete = function () {
+          let restautantData = [];
+          indexedRestaurants.result.map((item)=>{
+            restautantData.push(item.data.restaurant)
+          })
+          callback(null, restautantData);
+          db.close();
+        };
       }
-    };
-    xhr.send();
+    }
+    else {
+      let xhr = new XMLHttpRequest();
+      xhr.open('GET', DBHelper.DATABASE_URL);
+      xhr.onload = () => {
+        if (xhr.status === 200) { // Got a success response from server!
+          const json = JSON.parse(xhr.responseText);
+          // const restaurants = json.restaurants;
+          const restaurants = json;
+          window.restaurants = restaurants
+          callback(null, restaurants);
+        } else { // Oops!. Got an error from server.
+          const error = (`Request failed. Returned status of ${xhr.status}`);
+          callback(error, null);
+        }
+      };
+      xhr.send();
+    }
   }
 
   /**
@@ -163,7 +184,8 @@ class DBHelper {
       title: restaurant.name,
       url: DBHelper.urlForRestaurant(restaurant),
       map: map,
-      animation: google.maps.Animation.DROP}
+      animation: google.maps.Animation.DROP
+    }
     );
     return marker;
   }

@@ -1,3 +1,6 @@
+window.restaurants;
+window.idbStore;
+window.dbExists;
 var map
 var markers = []
 
@@ -10,15 +13,22 @@ window.addEventListener('beforeinstallprompt', function (e) {
   // Stash the event so it can be triggered later.
   deferredPrompt = e;
 
-  return false;Î
+  return false; Î
 });
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
+  window.dbExists = true;
+  var request = window.indexedDB.open("MyDatabase");
+  request.onupgradeneeded = function (e) {
+    e.target.transaction.abort();
+    window.dbExists = false;
+  }
   fetchNeighborhoods();
   fetchCuisines();
+  createIndexedDb()
 });
 
 /**
@@ -210,3 +220,53 @@ registerServiceWorker = () => {
 }
 
 registerServiceWorker();
+
+
+var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+
+createIndexedDb = () => {
+  var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+
+  // Open (or create) the database
+  var open = indexedDB.open("MyDatabase", 1);
+
+  // Create the schema
+  open.onupgradeneeded = function () {
+    var db = open.result;
+    window.idbStore = db.createObjectStore("MyObjectStore", { keyPath: "id" });
+    var index = window.idbStore.createIndex("IdIndex", "id");
+  };
+
+  open.onsuccess = function () {
+    // Start a new transaction
+    var db = open.result;
+    var tx = db.transaction("MyObjectStore", "readwrite");
+    window.idbStore = tx.objectStore("MyObjectStore");
+    var index = window.idbStore.index("IdIndex");
+
+    window.restaurants.map(function (restaurant) {
+      window.idbStore.put({ id: restaurant.id, data: { restaurant } });
+
+    })
+    // Add some data
+    // store.put({ id: 67890, name: { first: "Bob", last: "Smith" }, age: 35 });
+
+    // Query the data
+    // var getJohn = store.get(12345);
+    // var getBob = index.get(["Smith", "Bob"]);
+
+    // getJohn.onsuccess = function () {
+    //   console.log(getJohn.result.name.first);  // => "John"
+    // };
+
+    // getBob.onsuccess = function () {
+    //   console.log(getBob.result.name.first);   // => "Bob"
+    // };
+
+    // Close the db when the transaction is done
+    tx.oncomplete = function () {
+      db.close();
+    };
+  }
+}
+
