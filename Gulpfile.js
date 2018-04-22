@@ -62,13 +62,13 @@ gulp.task('minify-css', () => {
 gulp.task('watch', function () {
   var watcherJs = gulp.watch('js/**/*.js');
   watcherJs.on('change', function (path, stats) {
-    console.log('File ' + path + ' was changed');
+    // console.log('File ' + path + ' was changed');
     console.log(JSON.stringify(path))
     gulp.start('compressJs')
   });
   var watcherCss = gulp.watch('css/**/*.css');
   watcherCss.on('change', function (path, stats) {
-    console.log('File ' + path + ' was changed');
+    // console.log('File ' + path + ' was changed');
     console.log(JSON.stringify(path))
     gulp.start('minify-css')
   });
